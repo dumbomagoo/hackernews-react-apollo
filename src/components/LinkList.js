@@ -1,10 +1,36 @@
 import React from 'react';
-// import Link from './Link';
+import { gql, graphql } from 'react-apollo';
 
-const LinkList = props => (
-  <div>
+import Link from './Link';
 
-  </div>
-);
+const LinkList = props => {
+  if (props.allLinksQuery && props.allLinksQuery.loading) {
+    return <div>Loading</div>
+  }
 
-export default LinkList;
+  if (props.allLinksQuery && props.allLinksQuery.error) {
+    return <div>Error</div>
+  }
+
+  const linksToRender = props.allLinksQuery.allLinks
+
+  return (
+    <div>
+      {linksToRender.map(link => (
+        <Link key={link.id} link={link}/>
+      ))}
+    </div>
+  )
+};
+
+const ALL_LINKS_QUERY = gql`
+  query AllLinksQuery {
+    allLinks {
+      id
+      url
+      description
+    }
+  }
+`;
+
+export default graphql(ALL_LINKS_QUERY, { name: 'allLinksQuery' })(LinkList);
