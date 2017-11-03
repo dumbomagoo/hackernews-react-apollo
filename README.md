@@ -10,6 +10,8 @@ Stood up a little graphql server to provide the endpoint for our app.  See [Runn
 To run server:
 >$:cd graphqlServer
 
+>$:npm install
+
 >$:npm run dev
 
 http://localhost:4000/graphql
