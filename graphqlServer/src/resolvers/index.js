@@ -1,9 +1,8 @@
-
-import allLinks from './allLinks';
+import { allLinks } from './links';
+import { hello, updateHello } from './hello';
 
 export default {
-  hello: () => {
-    return 'Hello world';
-  },
+  hello,
+  updateHello,
   allLinks
 };

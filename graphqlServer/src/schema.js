@@ -11,4 +11,8 @@ type Link {
   description: String!
   url: String!
 }
+
+type Mutation {
+  updateHello(name: String): String! 
+}
 `);
