@@ -13,6 +13,7 @@ type Link {
 }
 
 type Mutation {
+  createLink(description: String, url: String): Link
   updateHello(name: String): String! 
 }
 `);

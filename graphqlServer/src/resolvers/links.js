@@ -1,5 +1,5 @@
 
-let listOfLinks = [
+const listOfLinks = [
   {
     "id": "cj4jo6xxat8o901420m0yy60i",
     "description": "The coolest GraphQL backend 😎",
@@ -13,3 +13,14 @@ let listOfLinks = [
 ];
 
 export const allLinks = () => listOfLinks;
+
+export const createLink = ({ description, url }) => {
+  const newLink = {
+    id: Math.floor(Math.random() * 100) + 1,
+    description,
+    url
+  }
+
+  listOfLinks.push(newLink);
+  return newLink;
+};

@@ -1,8 +1,9 @@
-import { allLinks } from './links';
+import { allLinks, createLink } from './links';
 import { hello, updateHello } from './hello';
 
 export default {
   hello,
   updateHello,
-  allLinks
+  allLinks,
+  createLink
 };
