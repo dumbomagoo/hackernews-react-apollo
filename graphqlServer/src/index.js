@@ -3,17 +3,8 @@ import graphqlHTTP from 'express-graphql';
 import { buildSchema } from 'graphql';
 import cors from 'cors';
 
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-const root = {
-  hello: () => {
-    return 'Hello world';
-  }
-};
+import schema from './schema';
+import rootValue from './resolvers';
 
 const app = express();
 
@@ -21,7 +12,7 @@ const app = express();
 // And express-graphql doesn't handle it.  Found answer here:  https://github.com/graphql/express-graphql/issues/14#issuecomment-219881556
 app.use('/graphql', cors(), graphqlHTTP({
   schema,
-  rootValue: root,
+  rootValue,
   graphiql: true
 }));
 
