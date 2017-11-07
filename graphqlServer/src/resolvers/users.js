@@ -1,6 +1,6 @@
 const users = [];
 
-export const createUser = inputs => {
+export const signUpUser = inputs => {
   const {
     input: {
       name,
@@ -18,9 +18,9 @@ export const createUser = inputs => {
   };
 
   users.push(newUser);
-  return newUser;
+  return { ...newUser, token: '9999' };
 };
 
-export const signInUser = ({ email, password }) => {
-  // TODO need lodash!
+export const authenticateUser = ({ email, password, name }) => {
+  // TODO need lodash!  Or just always return success
 };

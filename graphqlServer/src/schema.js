@@ -9,7 +9,7 @@ type Query {
 type Mutation {
   createLink(description: String, url: String): Link
   createUser(input: UserInput): User
-  signInUser(input: SignInUserInput): SignInUserPayload
+  signUpUser(input: SignUpUserInput): SignUpUserPayload
   updateHello(name: String): String! 
 }
 
@@ -20,13 +20,14 @@ type Link {
   postedBy: User
 }
 
-input SignInUserInput {
+input SignUpUserInput {
   email: String
   password: String
+  name: String
 }
 
-type SignInUserPayload {
-  user: User
+type SignUpUserPayload {
+  id: ID
   token: String
 }
 
