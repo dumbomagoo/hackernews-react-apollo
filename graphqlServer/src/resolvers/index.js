@@ -1,11 +1,12 @@
 import { allLinks, createLink } from './links';
 import { hello, updateHello } from './hello';
-import { signUpUser } from './users';
+import { signUpUser, authenticateUser } from './users';
 
 export default {
   hello,
   updateHello,
   allLinks,
   createLink,
-  signUpUser
+  signUpUser,
+  authenticateUser
 };

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const users = [];
 
 export const signUpUser = inputs => {
@@ -21,6 +23,21 @@ export const signUpUser = inputs => {
   return { ...newUser, token: '9999' };
 };
 
-export const authenticateUser = ({ email, password, name }) => {
-  // TODO need lodash!  Or just always return success
+export const authenticateUser = inputs => {
+  const {
+    input: {
+      email,
+      password
+    }
+  } = inputs;
+
+  const foundUser = _.find(users, user => {
+    return user.email === email && user.password === password;
+  });
+
+  return {
+    token: '9999',
+    user: { ...foundUser }
+  };
 };
+  

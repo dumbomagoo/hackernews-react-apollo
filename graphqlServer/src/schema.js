@@ -8,8 +8,8 @@ type Query {
 
 type Mutation {
   createLink(description: String, url: String): Link
-  createUser(input: UserInput): User
-  signUpUser(input: SignUpUserInput): SignUpUserPayload
+  authenticateUser(input: AuthenticateUserInput): AuthenticateUserPayload
+  signUpUser(input: UserInput): SignUpUserPayload
   updateHello(name: String): String! 
 }
 
@@ -20,10 +20,14 @@ type Link {
   postedBy: User
 }
 
-input SignUpUserInput {
+input AuthenticateUserInput {
   email: String
   password: String
-  name: String
+}
+
+type AuthenticateUserPayload {
+  token: String
+  user: User
 }
 
 type SignUpUserPayload {
