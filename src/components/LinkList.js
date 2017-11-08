@@ -33,4 +33,11 @@ const ALL_LINKS_QUERY = gql`
   }
 `;
 
-export default graphql(ALL_LINKS_QUERY, { name: 'allLinksQuery' })(LinkList);
+const queryOptions = {
+  name: 'allLinksQuery',
+  options: {
+    fetchPolicy: 'cache-and-network'
+  }
+};
+
+export default graphql(ALL_LINKS_QUERY, queryOptions)(LinkList);
