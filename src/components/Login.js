@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GC_USER_ID, GC_AUTH_TOKEN } from '../constants';
+import { gql, graphql, compose } from 'react-apollo';
 
 class Login extends Component {
   state = {
@@ -51,7 +52,28 @@ class Login extends Component {
   );
 
   _confirm = async () => {
-    //TODO
+    const { name, email, password } = this.state;
+    if (this.state.login) {
+      const result = await this.props.authenticationMutation({
+        variables: {
+          email,
+          password
+        }
+      });
+      const { id, token } = result.data.authenticateUser;
+      this._saveUserData(id, token);
+    } else {
+      const result = await this.props.signUpUserMutation({
+        variables: {
+          name,
+          email,
+          password
+        }
+      });
+      const { id, token } = result.data.signUpUser;
+      this._saveUserData(id, token);
+    }
+    this.props.history.push('/');
   };
 
   _saveUserData = (id, token) => {
@@ -60,4 +82,35 @@ class Login extends Component {
   };
 }
 
-export default Login;
+const SIGNUP_USER_MUTATION = gql`
+  mutation SignUpUserMutation($email: String!, $password: String!, $name: String!) {
+    signUpUser(
+      user: {
+        email: $email,
+        password: $password,
+        name: $name
+    }) {
+      id
+      token
+    }
+  }
+`;
+
+const AUTHENTICATE_USER_MUTATION = gql`
+  mutation AuthenticateUserMutation($email: String!, $password: String!) {
+    authenticateUser(authenticateInfo: {
+      email: $email,
+      password: $password
+    }) {
+      token
+      user {
+        id
+      }
+    }
+  }
+`;
+
+export default compose(
+  graphql(SIGNUP_USER_MUTATION, { name: 'signUpUserMutation' }),
+  graphql(AUTHENTICATE_USER_MUTATION, { name: 'authenticationMutation' })
+)(Login);
