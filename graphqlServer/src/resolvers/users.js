@@ -4,7 +4,7 @@ const users = [];
 
 export const signUpUser = inputs => {
   const {
-    input: {
+    user: {
       name,
       email,
       password
@@ -25,7 +25,7 @@ export const signUpUser = inputs => {
 
 export const authenticateUser = inputs => {
   const {
-    input: {
+    authenticateInfo: {
       email,
       password
     }
