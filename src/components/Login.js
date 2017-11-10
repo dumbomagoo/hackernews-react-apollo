@@ -60,7 +60,7 @@ class Login extends Component {
           password
         }
       });
-      const { id, token } = result.data.authenticateUser;
+      const { user: { id }, token } = result.data.authenticateUser;
       this._saveUserData(id, token);
     } else {
       const result = await this.props.signUpUserMutation({
