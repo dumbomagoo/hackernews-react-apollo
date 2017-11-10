@@ -7,7 +7,7 @@ type Query {
 }
 
 type Mutation {
-  createLink(description: String, url: String): Link
+  createLink(description: String!, url: String!, postedById: ID!): Link
   authenticateUser(authenticateInfo: AuthenticateUserInput): AuthenticateUserPayload
   signUpUser(user: UserInput): SignUpUserPayload
   updateHello(name: String): String! 

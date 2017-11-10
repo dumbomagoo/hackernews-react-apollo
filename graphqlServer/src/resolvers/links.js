@@ -1,3 +1,4 @@
+import { getUser } from './users'
 
 const listOfLinks = [
   {
@@ -14,11 +15,12 @@ const listOfLinks = [
 
 export const allLinks = () => listOfLinks;
 
-export const createLink = ({ description, url }) => {
+export const createLink = ({ description, url, postedById }) => {
   const newLink = {
     id: Math.floor(Math.random() * 100) + 1,
     description,
-    url
+    url,
+    postedBy: getUser(postedById)
   }
 
   listOfLinks.push(newLink);

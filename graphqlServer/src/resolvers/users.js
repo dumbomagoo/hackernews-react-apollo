@@ -40,4 +40,14 @@ export const authenticateUser = inputs => {
     user: { ...foundUser }
   };
 };
+
+/*
+ * This function is not a resolver and is a helper
+ */
+export const getUser = id => {
+  return _.find(users, user => {
+    // For some reason comparing the ids with triple equals was returning false
+    return user.id == id;
+  });
+};
   
