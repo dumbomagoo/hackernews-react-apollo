@@ -1,9 +1,12 @@
-
-import allLinks from './allLinks';
+import { allLinks, createLink } from './links';
+import { hello, updateHello } from './hello';
+import { signUpUser, authenticateUser } from './users';
 
 export default {
-  hello: () => {
-    return 'Hello world';
-  },
-  allLinks
+  hello,
+  updateHello,
+  allLinks,
+  createLink,
+  signUpUser,
+  authenticateUser
 };

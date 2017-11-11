@@ -19,7 +19,3 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-#Temp
-hello.js
-links.js
