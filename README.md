@@ -14,9 +14,7 @@ To run the app:
 >$ npm start
 
 #### Issue #1
-I ran into issues using graphcool (the tutorial is written for an older version), so I decided to just stand up my own graphql server (see section below).
-#### Issue #2 
-Needed to install `"react-apollo": "1.4.0",` specifically.  Otherwise there is an error about `createNetworkInterface` not being a function.
+I ran into issues using graphcool (the tutorial is written for an older version), so I decided to just stand up my own graphql server (see section below).  It was a good opportunity to get that working.
 
 ## Graphql server
 Stood up a little graphql server to provide the endpoint for our app.  See [Running an Express GraphQL Server](http://graphql.org/graphql-js/running-an-express-graphql-server/)
