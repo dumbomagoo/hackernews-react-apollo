@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag'
 
 import { GC_USER_ID } from '../constants';
+import { ALL_LINKS_QUERY } from './LinkList';
 
 class CreateLink extends Component {
 
@@ -47,6 +48,14 @@ class CreateLink extends Component {
         description,
         url,
         postedById
+      },
+      update: (store, { data: { createLink } }) => {
+        const data = store.readQuery({ query: ALL_LINKS_QUERY });
+        data.allLinks.splice(0,0,createLink);
+        store.writeQuery({
+          query: ALL_LINKS_QUERY,
+          data
+        });
       }
     });
     this.props.history.push('/');
@@ -67,6 +76,7 @@ const CREATE_LINK_MUTATION = gql`
         id
         name
       }
+      votes
     }
   }
 `

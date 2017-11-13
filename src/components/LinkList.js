@@ -33,7 +33,7 @@ class LinkList extends Component {
   };
 }
 
-const ALL_LINKS_QUERY = gql`
+export const ALL_LINKS_QUERY = gql`
   query AllLinksQuery {
     allLinks {
       id
@@ -49,10 +49,7 @@ const ALL_LINKS_QUERY = gql`
 `;
 
 const queryOptions = {
-  name: 'allLinksQuery',
-  options: {
-    fetchPolicy: 'cache-and-network'
-  }
+  name: 'allLinksQuery'
 };
 
 export default graphql(ALL_LINKS_QUERY, queryOptions)(LinkList);
