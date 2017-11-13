@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { GC_USER_ID } from '../constants';
 
 class Link extends Component {
@@ -21,8 +23,24 @@ class Link extends Component {
   };
 
   _voteForLink = async () => {
-    // TODO later
+    const linkId = this.props.link.id;
+    await this.props.createVoteMutation({
+      variables: {
+        linkId
+      },
+      update: (store, { data: { createVote } }) => {
+        this.props.updateStoreAfterVote(store, createVote, linkId);
+      }
+    })
   };
 }
 
-export default Link;
+const CREATE_VOTE_MUTATION = gql`
+  mutation CreateVoteMutation($linkId: ID!) {
+    createVote(linkId: $linkId) {
+      votes
+    }
+  }
+`;
+
+export default graphql(CREATE_VOTE_MUTATION, { name: 'createVoteMutation' })(Link);
