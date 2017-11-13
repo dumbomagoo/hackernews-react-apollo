@@ -30,6 +30,11 @@ const ALL_LINKS_QUERY = gql`
       id
       url
       description
+      postedBy {
+        id
+        name
+      }
+      votes 
     }
   }
 `;
