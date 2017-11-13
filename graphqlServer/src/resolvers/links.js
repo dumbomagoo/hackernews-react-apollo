@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { getUser } from './users'
 
 const listOfLinks = [
@@ -19,7 +20,7 @@ export const allLinks = () => listOfLinks;
 
 export const createLink = ({ description, url, postedById }) => {
   const newLink = {
-    id: Math.floor(Math.random() * 100) + 1,
+    id: `blah${Math.floor(Math.random() * 100) + 1}`,
     description,
     url,
     postedBy: getUser(postedById),
@@ -28,4 +29,12 @@ export const createLink = ({ description, url, postedById }) => {
 
   listOfLinks.push(newLink);
   return newLink;
+};
+
+export const createVote = ({ linkId }) => {
+  const link = _.find(listOfLinks, link => {
+    return linkId === link.id;
+  });
+
+  return { votes: ++link.votes };
 };
