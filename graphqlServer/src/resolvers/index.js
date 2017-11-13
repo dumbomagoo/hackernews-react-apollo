@@ -1,4 +1,4 @@
-import { allLinks, createLink } from './links';
+import { allLinks, createLink, createVote } from './links';
 import { hello, updateHello } from './hello';
 import { signUpUser, authenticateUser } from './users';
 
@@ -7,6 +7,7 @@ export default {
   updateHello,
   allLinks,
   createLink,
+  createVote,
   signUpUser,
   authenticateUser
 };

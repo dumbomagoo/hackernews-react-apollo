@@ -11,6 +11,11 @@ type Mutation {
   authenticateUser(authenticateInfo: AuthenticateUserInput): AuthenticateUserPayload
   signUpUser(user: UserInput): SignUpUserPayload
   updateHello(name: String): String! 
+  createVote(linkId: ID!): CreateVotePayload
+}
+
+type CreateVotePayload {
+  votes: Int!
 }
 
 type Link {
@@ -18,6 +23,7 @@ type Link {
   description: String!
   url: String!
   postedBy: User
+  votes: Int
 }
 
 input AuthenticateUserInput {
