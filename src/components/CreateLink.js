@@ -7,25 +7,18 @@ import { ALL_LINKS_QUERY } from './LinkList';
 
 class CreateLink extends Component {
 
-  state = {
-    description: '',
-    url: ''
-  };
-
   render = () => (
     <div>
       <div className={'flex flex-column mt3'}>
         <input
           className={'mb2'}
-          value={this.state.description}
-          onChange={(e) => this.setState({ description: e.target.value })}
+          ref={input => { this.descriptionTextInput = input; }}
           type={'text'}
           placeholder={'The description for the link'}
         />
         <input
           className={'mb2'}
-          value={this.state.url}
-          onChange={(e) => this.setState({ url: e.target.value })}
+          ref={input => { this.urlTextInput = input; }}
           type={'text'}
           placeholder={'The URL for the link'}
         />
@@ -42,16 +35,16 @@ class CreateLink extends Component {
       console.error('No user logged in');
       return;
     }
-    const { description, url } = this.state;
+    
     await this.props.createLinkMutation({
       variables: {
-        description,
-        url,
+        description: this.descriptionTextInput.value,
+        url: this.urlTextInput.value,
         postedById
       },
       update: (store, { data: { createLink } }) => {
         const data = store.readQuery({ query: ALL_LINKS_QUERY });
-        data.allLinks.splice(0,0,createLink);
+        data.allLinks.push(createLink);
         store.writeQuery({
           query: ALL_LINKS_QUERY,
           data
