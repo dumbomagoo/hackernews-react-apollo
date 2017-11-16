@@ -3,7 +3,7 @@ import { buildSchema } from 'graphql';
 export default buildSchema(`
 type Query {
   hello: String
-  allLinks: [Link]!
+  allLinks(filter: String): [Link]!
 }
 
 type Mutation {
