@@ -10,7 +10,7 @@ class Link extends Component {
       <div className={'flex mt2 items-start'}>
         <div className={'flex items-center'}>
           <span className={'gray'}>{this.props.index + 1}.</span>
-          {userId && <div className={'ml1 gray f11'} onClick={this._voteForLink}>▲</div>}
+          {userId && <div className={'ml1 gray f11'} onClick={this.voteForLink}>▲</div>}
         </div>
         <div className={'ml1'}>
           <div>{this.props.link.description} ({this.props.link.url})</div>
@@ -22,7 +22,7 @@ class Link extends Component {
     );
   };
 
-  _voteForLink = async () => {
+  voteForLink = async () => {
     const linkId = this.props.link.id;
     await this.props.createVoteMutation({
       variables: {

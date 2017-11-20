@@ -23,13 +23,13 @@ class CreateLink extends Component {
           placeholder={'The URL for the link'}
         />
       </div>
-      <button onClick={() => this._createLink()}>
+      <button onClick={() => this.createLink()}>
         Submit
       </button>
     </div>
   );
 
-  _createLink = async () => {
+  createLink = async () => {
     const postedById = localStorage.getItem(GC_USER_ID);
     if (!postedById) {
       console.error('No user logged in');
