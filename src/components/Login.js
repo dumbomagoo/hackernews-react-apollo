@@ -38,7 +38,7 @@ class Login extends Component {
       <div className={'flex mt3'}>
         <div 
           className={'pointer mr2 button'}
-          onClick={() => this._confirm()}
+          onClick={() => this.confirm()}
         >
           {this.state.login ? 'login' : 'create account'}
         </div>
@@ -52,7 +52,7 @@ class Login extends Component {
     </div>
   );
 
-  _confirm = async () => {
+  confirm = async () => {
     const { name, email, password } = this.state;
     if (this.state.login) {
       const result = await this.props.authenticationMutation({
@@ -62,7 +62,7 @@ class Login extends Component {
         }
       });
       const { user: { id }, token } = result.data.authenticateUser;
-      this._saveUserData(id, token);
+      this.saveUserData(id, token);
     } else {
       const result = await this.props.signUpUserMutation({
         variables: {
@@ -72,12 +72,12 @@ class Login extends Component {
         }
       });
       const { id, token } = result.data.signUpUser;
-      this._saveUserData(id, token);
+      this.saveUserData(id, token);
     }
     this.props.history.push('/');
   };
 
-  _saveUserData = (id, token) => {
+  saveUserData = (id, token) => {
     localStorage.setItem(GC_USER_ID, id);
     localStorage.setItem(GC_AUTH_TOKEN, token);
   };

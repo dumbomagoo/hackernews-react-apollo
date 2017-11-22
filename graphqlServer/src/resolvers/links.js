@@ -16,7 +16,9 @@ const listOfLinks = [
   }
 ];
 
-export const allLinks = () => listOfLinks;
+export const allLinks = ({ filter = '' }) => (
+  _.filter(listOfLinks, item => item.description.indexOf(filter) !== -1 || item.url.indexOf(filter) !== -1)
+);
 
 export const createLink = ({ description, url, postedById }) => {
   const newLink = {
