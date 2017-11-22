@@ -1,6 +1,7 @@
 import { allLinks, createLink, createVote } from './links';
 import { hello, updateHello } from './hello';
 import { signUpUser, authenticateUser } from './users';
+import Link from './linkSubscription';
 
 export default {
   hello,
@@ -9,5 +10,6 @@ export default {
   createLink,
   createVote,
   signUpUser,
-  authenticateUser
+  authenticateUser,
+  Link
 };

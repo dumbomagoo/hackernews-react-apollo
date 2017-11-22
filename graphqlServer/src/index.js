@@ -1,7 +1,9 @@
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
-import { buildSchema } from 'graphql';
+import { buildSchema, execute, subscribe } from 'graphql';
 import cors from 'cors';
+import { createServer } from 'http';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 
 import schema from './schema';
 import rootValue from './resolvers';
@@ -16,5 +18,13 @@ app.use('/graphql', cors(), graphqlHTTP({
   graphiql: true
 }));
 
-app.listen(4000);
-console.log('Running a GraphQL API server at localhost:4000/graphql');
+// app.listen(4000);
+const PORT = 4000;
+const server = createServer(app);
+server.listen(PORT, () => {
+  SubscriptionServer.create(
+    { execute, subscribe, schema },
+    { server, path: '/subscriptions' }
+  );
+  console.log('Running a GraphQL API server at localhost:4000/graphql');
+});

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { getUser } from './users'
+import pubsub from '../pubsub';
 
 const listOfLinks = [
   {
@@ -30,6 +31,7 @@ export const createLink = ({ description, url, postedById }) => {
   }
 
   listOfLinks.push(newLink);
+  pubsub.publish('Link', { Link: { mutation: 'CREATED', link: newLink }});
   return newLink;
 };
 

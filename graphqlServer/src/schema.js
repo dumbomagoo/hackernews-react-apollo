@@ -53,4 +53,23 @@ input UserInput {
   email: String!
   password: String!
 }
+
+type Subscription {
+  Link(filter: LinkSubscriptionFilter): LinkSubscriptionPayload
+}
+
+input LinkSubscriptionFilter {
+  mutation_in: [ModelMutationType!]
+}
+
+type LinkSubscriptionPayload {
+  mutation: ModelMutationType!
+  link: Link
+}
+
+enum ModelMutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
 `);
