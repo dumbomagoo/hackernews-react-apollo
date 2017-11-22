@@ -10,21 +10,18 @@ class Search extends Component {
     searchText: ''
   };
 
-  render () {
-    return (
+  render = () => (
+    <div>
       <div>
-        <div>
-          Search
-          <input type='text' onChange={(e) => this.setState({ searchText: e.target.value })} />
-          <button onClick={() => this.executeSearch()}>OK</button>
-        </div>
-        {this.state.links.map((link, index) => <Link key={link.id} link={link} index={index} />)}
+        Search
+        <input type='text' onChange={(e) => this.setState({ searchText: e.target.value })} />
+        <button onClick={() => this.executeSearch()}>OK</button>
       </div>
-    );
-  };
+      {this.state.links.map((link, index) => <Link key={link.id} link={link} index={index} />)}
+    </div>
+  );
 
   executeSearch = async () => {
-    console.log('UGH', this.state.searchText);
     const { searchText } = this.state;
     const result = await this.props.client.query({
       query: ALL_LINKS_SEARCH_QUERY,
