@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const users = [];
 
-export const signUpUser = inputs => {
+export const signUpUser = (root, inputs) => {
   const {
     user: {
       name,
@@ -23,7 +23,7 @@ export const signUpUser = inputs => {
   return { ...newUser, token: '9999' };
 };
 
-export const authenticateUser = inputs => {
+export const authenticateUser = (root, inputs) => {
   const {
     authenticateInfo: {
       email,

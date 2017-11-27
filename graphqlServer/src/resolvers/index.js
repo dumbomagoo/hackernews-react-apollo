@@ -4,12 +4,18 @@ import { signUpUser, authenticateUser } from './users';
 import Link from './linkSubscription';
 
 export default {
-  hello,
-  updateHello,
-  allLinks,
-  createLink,
-  createVote,
-  signUpUser,
-  authenticateUser,
-  Link
+  Query: {
+    hello,
+    allLinks
+  },
+  Mutation: {
+    updateHello,
+    createLink,
+    createVote,
+    signUpUser,
+    authenticateUser
+  },
+  Subscription: {
+    Link
+  }
 };

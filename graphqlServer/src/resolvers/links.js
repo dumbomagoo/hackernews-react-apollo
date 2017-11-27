@@ -17,11 +17,11 @@ const listOfLinks = [
   }
 ];
 
-export const allLinks = ({ filter = '' }) => (
+export const allLinks = (root, { filter = '' }) => (
   _.filter(listOfLinks, item => item.description.indexOf(filter) !== -1 || item.url.indexOf(filter) !== -1)
 );
 
-export const createLink = ({ description, url, postedById }) => {
+export const createLink = (root, { description, url, postedById }) => {
   const newLink = {
     id: `blah${Math.floor(Math.random() * 100) + 1}`,
     description,
@@ -35,7 +35,7 @@ export const createLink = ({ description, url, postedById }) => {
   return newLink;
 };
 
-export const createVote = ({ linkId }) => {
+export const createVote = (root, { linkId }) => {
   const link = _.find(listOfLinks, link => {
     return linkId === link.id;
   });

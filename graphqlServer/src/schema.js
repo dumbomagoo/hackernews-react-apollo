@@ -1,6 +1,7 @@
-import { buildSchema } from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
+import resolvers from './resolvers';
 
-export default buildSchema(`
+const typeDefs =`
 type Query {
   hello: String
   allLinks(filter: String): [Link]!
@@ -72,4 +73,6 @@ enum ModelMutationType {
   UPDATED
   DELETED
 }
-`);
+`;
+
+export default makeExecutableSchema({ typeDefs, resolvers });
