@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
+import _ from 'lodash';
 
 import Link from './Link';
 
 class LinkList extends Component {
   componentDidMount = () => {
     this.subscribeToNewLinks();
+    this.subscribeToNewVotes();
   }
 
   render = () => {
@@ -61,6 +63,42 @@ class LinkList extends Component {
           ...previous.allLinks,
           subscriptionData.Link.link
         ];
+        const result = {
+          ...previous,
+          allLinks: newAllLinks
+        };
+        return result;
+      }
+    });
+  };
+
+  subscribeToNewVotes = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+        subscription {
+          Vote {
+            link {
+              id
+              url
+              description
+              postedBy {
+                id
+                name
+              }
+              votes
+            }
+          }
+        }
+      `,
+      updateQuery: (previous, { subscriptionData }) => {
+        const newAllLinks = [
+          ...previous.allLinks
+        ];
+        
+        _.remove(newAllLinks, item => item.id === subscriptionData.Vote.link.id);
+
+        newAllLinks.push(subscriptionData.Vote.link);
+
         const result = {
           ...previous,
           allLinks: newAllLinks

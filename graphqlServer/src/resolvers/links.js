@@ -39,6 +39,7 @@ export const createVote = (root, { linkId }) => {
   const link = _.find(listOfLinks, link => {
     return linkId === link.id;
   });
-
+  
+  pubsub.publish('Vote',{ Vote: { link }});
   return { votes: ++link.votes };
 };

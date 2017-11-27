@@ -57,6 +57,7 @@ input UserInput {
 
 type Subscription {
   Link(filter: LinkSubscriptionFilter): LinkSubscriptionPayload
+  Vote: VoteSubscriptionPayload
 }
 
 input LinkSubscriptionFilter {
@@ -72,6 +73,10 @@ enum ModelMutationType {
   CREATED
   UPDATED
   DELETED
+}
+
+type VoteSubscriptionPayload {
+  link: Link
 }
 `;
 
