@@ -5,6 +5,10 @@ import gql from 'graphql-tag'
 import Link from './Link';
 
 class LinkList extends Component {
+  componentDidMount = () => {
+    this.subscribeToNewLinks();
+  }
+
   render = () => {
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
       return <div>Loading</div>
@@ -30,6 +34,40 @@ class LinkList extends Component {
     const votedLink = data.allLinks.find(link => link.id === linkId);
     votedLink.votes = createVote.votes;
     store.writeQuery({ query: ALL_LINKS_QUERY, data });
+  };
+
+  subscribeToNewLinks = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+        subscription {
+          Link( filter: {
+            mutation_in: [CREATED]
+          }) {
+            link {
+              id
+              url
+              description
+              postedBy {
+                id
+                name
+              }
+              votes
+            }
+          }
+        }
+      `,
+      updateQuery: (previous, { subscriptionData }) => {
+        const newAllLinks = [
+          ...previous.allLinks,
+          subscriptionData.Link.link
+        ];
+        const result = {
+          ...previous,
+          allLinks: newAllLinks
+        };
+        return result;
+      }
+    });
   };
 }
 

@@ -44,7 +44,7 @@ const errorLink = onError( args => {
 const allTheWaresLinks = errorLink.concat(httpLinkWithAfterware);
 
 const wsLink = new WebSocketLink({
-  uri: 'http://localhost:4000/subscriptions',
+  uri: 'ws://localhost:4000/subscriptions',
   options: {
     reconnect: true
   }
