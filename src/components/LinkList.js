@@ -95,9 +95,13 @@ class LinkList extends Component {
           ...previous.allLinks
         ];
         
-        _.remove(newAllLinks, item => item.id === subscriptionData.Vote.link.id);
-
-        newAllLinks.push(subscriptionData.Vote.link);
+        _.map(newAllLinks, item => {
+          const newVote = { ...item }
+          if (newVote.id === subscriptionData.Vote.link.id) {
+            newVote.votes = subscriptionData.Vote.link.votes;
+          }
+          return newVote
+        });
 
         const result = {
           ...previous,
