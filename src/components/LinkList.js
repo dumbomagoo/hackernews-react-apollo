@@ -90,17 +90,13 @@ class LinkList extends Component {
           }
         }
       `,
-      updateQuery: (previous, { subscriptionData }) => {
-        const newAllLinks = [
-          ...previous.allLinks
-        ];
-        
-        _.map(newAllLinks, item => {
-          const newVote = { ...item }
-          if (newVote.id === subscriptionData.Vote.link.id) {
-            newVote.votes = subscriptionData.Vote.link.votes;
+      updateQuery: (previous, { subscriptionData }) => {        
+        const newAllLinks = _.map(previous.allLinks, link => {
+          const newLink = { ...link }
+          if (newLink.id === subscriptionData.Vote.link.id) {
+            newLink.votes = subscriptionData.Vote.link.votes;
           }
-          return newVote
+          return newLink
         });
 
         const result = {
