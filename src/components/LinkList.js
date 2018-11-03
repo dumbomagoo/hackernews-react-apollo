@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
+import _ from 'lodash';
 
 import Link from './Link';
 
 class LinkList extends Component {
+  componentDidMount = () => {
+    this.subscribeToNewLinks();
+    this.subscribeToNewVotes();
+  }
+
   render = () => {
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
       return <div>Loading</div>
@@ -30,6 +36,76 @@ class LinkList extends Component {
     const votedLink = data.allLinks.find(link => link.id === linkId);
     votedLink.votes = createVote.votes;
     store.writeQuery({ query: ALL_LINKS_QUERY, data });
+  };
+
+  subscribeToNewLinks = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+        subscription {
+          Link( filter: {
+            mutation_in: [CREATED]
+          }) {
+            link {
+              id
+              url
+              description
+              postedBy {
+                id
+                name
+              }
+              votes
+            }
+          }
+        }
+      `,
+      updateQuery: (previous, { subscriptionData }) => {
+        const newAllLinks = [
+          ...previous.allLinks,
+          subscriptionData.data.Link.link
+        ];
+        const result = {
+          ...previous,
+          allLinks: newAllLinks
+        };
+        return result;
+      }
+    });
+  };
+
+  subscribeToNewVotes = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+        subscription {
+          Vote {
+            link {
+              id
+              url
+              description
+              postedBy {
+                id
+                name
+              }
+              votes
+            }
+          }
+        }
+      `,
+      updateQuery: (previous, { subscriptionData }) => {   
+        const newAllLinks = _.map(previous.allLinks, link => {
+          const newLink = { ...link }  
+          if (newLink.id === subscriptionData.data.Vote.link.id) {
+            newLink.votes = subscriptionData.data.Vote.link.votes;
+          }
+          return newLink
+        });
+
+        const result = {
+          ...previous,
+          allLinks: newAllLinks
+        };
+        return result;
+      }
+    });
   };
 }
 

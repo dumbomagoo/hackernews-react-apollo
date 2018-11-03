@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
-import { ApolloLink } from 'apollo-client-preset'
+import { ApolloLink, split } from 'apollo-client-preset'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { BrowserRouter } from 'react-router-dom';
 import { onError } from 'apollo-link-error';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 
 import './styles/index.css';
 import App from './components/App';
@@ -35,11 +37,26 @@ const errorLink = onError( args => {
     console.log('Network error', networkError);
   } else if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, pathe }) =>
-    console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${pathe}`)
-  );
-}
+      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${pathe}`)
+    );
+  }
 });
-const link = errorLink.concat(httpLinkWithAfterware)
+const allTheWaresLinks = errorLink.concat(httpLinkWithAfterware);
+
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:4000/subscriptions',
+  options: {
+    reconnect: true
+  }
+});
+
+const link = split(({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  },
+  wsLink,
+  allTheWaresLinks
+);
 
 const client = new ApolloClient({
   link: link,

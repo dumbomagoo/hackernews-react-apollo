@@ -1,6 +1,7 @@
-import { buildSchema } from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
+import resolvers from './resolvers';
 
-export default buildSchema(`
+const typeDefs =`
 type Query {
   hello: String
   allLinks(filter: String): [Link]!
@@ -53,4 +54,30 @@ input UserInput {
   email: String!
   password: String!
 }
-`);
+
+type Subscription {
+  Link(filter: LinkSubscriptionFilter): LinkSubscriptionPayload
+  Vote: VoteSubscriptionPayload
+}
+
+input LinkSubscriptionFilter {
+  mutation_in: [ModelMutationType!]
+}
+
+type LinkSubscriptionPayload {
+  mutation: ModelMutationType!
+  link: Link
+}
+
+enum ModelMutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type VoteSubscriptionPayload {
+  link: Link
+}
+`;
+
+export default makeExecutableSchema({ typeDefs, resolvers });
