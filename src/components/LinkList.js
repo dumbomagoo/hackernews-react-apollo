@@ -61,7 +61,7 @@ class LinkList extends Component {
       updateQuery: (previous, { subscriptionData }) => {
         const newAllLinks = [
           ...previous.allLinks,
-          subscriptionData.Link.link
+          subscriptionData.data.Link.link
         ];
         const result = {
           ...previous,
@@ -90,11 +90,11 @@ class LinkList extends Component {
           }
         }
       `,
-      updateQuery: (previous, { subscriptionData }) => {        
+      updateQuery: (previous, { subscriptionData }) => {   
         const newAllLinks = _.map(previous.allLinks, link => {
-          const newLink = { ...link }
-          if (newLink.id === subscriptionData.Vote.link.id) {
-            newLink.votes = subscriptionData.Vote.link.votes;
+          const newLink = { ...link }  
+          if (newLink.id === subscriptionData.data.Vote.link.id) {
+            newLink.votes = subscriptionData.data.Vote.link.votes;
           }
           return newLink
         });

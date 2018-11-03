@@ -21,7 +21,7 @@ I ran into issues using graphcool, so I decided to just stand up my own graphql 
 Part of the tutorial adds a search page to allow the user to type into a field and then display those links that contain that string in the description or url.  On the search page, there is a defect in the functionality in that when the links are displayed, if the user votes for a link, the cache is not updated, so the number of votes is not updated.  If you reload the page or go to the home page, the vote totals will be updated correctly.  This is due to the fact that the function to update the cache lives in the LinkList component and is passed into each Link component as a prop.  The Search component doesn't have access to that function and therefore doesn't pass it into the Link components.
 
 ## Graphql server
-Stood up a little graphql server to provide the endpoint for our app.  See [Running an Express GraphQL Server](http://graphql.org/graphql-js/running-an-express-graphql-server/)
+Stood up a little graphql server to provide the endpoint for our app.  
 
 To run server:
 >$ cd graphqlServer
@@ -30,7 +30,10 @@ To run server:
 
 >$ npm run dev
 
-http://localhost:4000/graphql
+http://localhost:4000/graphiql
 
 ### Issue with using express-graphql and react-apollo
 It seems that `react-apollo` makes an `OPTIONS` call under the hood, which `express-graphql` doesn't support.  Added `cors` to handle the `OPTIONS` request.  Found solution [here](https://github.com/graphql/express-graphql/issues/14#issuecomment-219881556).
+
+### Issue using subscriptions with express-graphql
+First stood up graphql server with express-graphql: See [Running an Express GraphQL Server](http://graphql.org/graphql-js/running-an-express-graphql-server/).  However, in order to get the subscriptions working I had to change the server to use apollo-server-express.  See [Graphql Subscriptions Docs](https://www.apollographql.com/docs/graphql-subscriptions/express.html) and [How to Use Subscriptions in GraphiQL Tutorial](https://blog.apollographql.com/how-to-use-subscriptions-in-graphiql-1d6ab8dbd74b).  For some reason though, I can't get subscriptions working in GraphiQL
